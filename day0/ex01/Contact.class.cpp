@@ -15,9 +15,15 @@ Contact::Contact(std::string p1, std::string p2, std::string p3, std::string p4,
 	this->favoriteMeal = p8;
 	this->underwearColor = p9;
 	this->darkestSecret = p10;
+	return;
+}
+
+Contact::Contact(void){
+	return;
 }
 
 Contact::~Contact(void) {
+	return;
 }
 
 void Contact::toString() {

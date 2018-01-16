@@ -32,8 +32,8 @@ Contact adInfo() {
 	return contact;
 }
 
-void	lookList(Contact array []) {
-
+void	lookList(Contact listContacts []) {
+	cout << listContacts[0];
 }
 
 

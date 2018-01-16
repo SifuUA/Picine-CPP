@@ -1,8 +1,7 @@
 # include <iostream>
 # include "Phonebook.class.hpp"
 # include "Contact.class.hpp"
-#include <string>
-using namespace std;
+# include <string>
 
 int Phonebook::id = 0;
 
@@ -14,7 +13,7 @@ Phonebook::~Phonebook(void) {
 
 void Phonebook::addContact(Contact contact) {
 	this->listContacts[id] = contact;
-	cout << "Contact is added." << endl;
+	std::cout << "Contact is added." << std::endl;
 	id++;
 }
 

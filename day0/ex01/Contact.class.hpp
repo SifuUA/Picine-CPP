@@ -26,7 +26,6 @@ class Contact {
 
 		~Contact(void);
 
-
 		void toString(void);
 
 		std::string getFirstName(void);

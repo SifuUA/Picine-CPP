@@ -6,7 +6,6 @@
 
 class Phonebook {
 
-
 private:
 	static int id;
 
@@ -17,11 +16,10 @@ public:
 	
 	~Phonebook(void);
 
-void addContact(Contact contact);
+	void addContact(Contact contact);
 
-void search(void);
+	void search(void);
 
-int getIndex();
+	int getIndex();
 };
-
 #endif

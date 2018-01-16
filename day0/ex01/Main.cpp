@@ -75,9 +75,9 @@ void	lookList(Contact listContacts [], int size) {
 				return;
 			else {
 				std::cout << "Not such contact :(" << std::endl;
+				continue;
 			}
 		}
-
 	}
 	std::cout << "The phonebook while empty :(" << std::endl;
 }

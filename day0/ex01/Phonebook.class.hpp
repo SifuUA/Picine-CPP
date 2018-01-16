@@ -11,7 +11,7 @@ private:
 	static int id;
 
 public:
-	Contact listContacs [8];
+	Contact listContacts [8];
 
 	Phonebook(void);
 	
@@ -21,7 +21,7 @@ void addContact(Contact contact);
 
 void search(void);
 
-/*static int nextId();*/
+int getId();
 };
 
 #endif

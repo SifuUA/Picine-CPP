@@ -1,6 +1,8 @@
-#include <iostream>
+# include <iostream>
 # include "Phonebook.class.hpp"
 # include "Contact.class.hpp"
+#include <string>
+using namespace std;
 
 int Phonebook::id = 0;
 
@@ -10,14 +12,13 @@ Phonebook::Phonebook() {
 Phonebook::~Phonebook(void) {
 }
 
-/*static int Phonebook::nextId() {
-	return int Phonebook::id++;
-}*/
-
 void Phonebook::addContact(Contact contact) {
-	if(id < 8) {
-		std::cout << "AAAAAA" << std::endl;
-		id++;
-		std::cout << id;
-	}
+	this->listContacts[id] = contact;
+	cout << "Contact with this is info is added." << endl;
+	this->listContacts[id].toString();
+	id++;
+}
+
+int Phonebook::getId() {
+	return this->id;
 }

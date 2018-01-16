@@ -14,11 +14,10 @@ Phonebook::~Phonebook(void) {
 
 void Phonebook::addContact(Contact contact) {
 	this->listContacts[id] = contact;
-	cout << "Contact with this is info is added." << endl;
-	this->listContacts[id].toString();
+	cout << "Contact is added." << endl;
 	id++;
 }
 
-int Phonebook::getId() {
+int Phonebook::getIndex() {
 	return this->id;
 }

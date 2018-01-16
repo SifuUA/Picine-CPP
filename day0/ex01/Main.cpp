@@ -2,6 +2,7 @@
 # include "Contact.class.hpp"
 # include "Phonebook.class.hpp"
 # include <string>
+# include <iomanip>
 using namespace std;
 
 
@@ -32,12 +33,60 @@ Contact adInfo() {
 	return contact;
 }
 
-void	lookList(Contact listContacts []) {
-	cout << listContacts[0];
+void	lookList(Contact listContacts [], int size) {
+	int i = 0;
+	int inf = 0;
+
+	if (size > 0)
+	{
+		while (i < size) {
+			cout << setw(10) << right << i + 1 << "|";
+
+			if (listContacts[i].getFirstName().length() > 10) {
+				string str = listContacts[i].getFirstName().substr(0, 9) + ".";
+				cout << setw(10) << right << str << "|";
+			}
+			else
+				cout << setw(10) << right << listContacts[i].getFirstName() << "|";
+
+			if (listContacts[i].getLastName().length() > 10) {
+				string str = listContacts[i].getLastName().substr(0, 9) + ".";
+				cout << setw(10) << right << str << "|";
+			}
+			else
+				cout << setw(10) << right << listContacts[i].getLastName() << "|";
+
+			if (listContacts[i].getNickname().length() > 10) {
+				string str = listContacts[i].getNickname().substr(0, 9) + ".";
+				cout << setw(10) << right << str << "|" << endl;
+			}
+			else
+				cout << setw(10) << right << listContacts[i].getNickname() << "|" << endl;
+			i++;
+		}
+		while(1){
+			cout << endl << "If you want more info, input number of contatc." << endl;
+			cout << "For go back input 42. ";
+			cin >> inf;
+			cout << endl;
+			if (inf > 0 && inf <= size) {
+				listContacts[inf - 1].toString();
+			}
+			else if (inf == 42)
+				return;
+			else {
+				cout << "Not such contact :(" << endl;
+			}
+		}
+
+	}
+	cout << "The phonebook while empty :(" << endl;
 }
 
 
 int		main() {
+
+
 	string command;
 	Phonebook phonebook;
 	Contact contact;
@@ -48,24 +97,22 @@ int		main() {
 		cin >> command;
 		if (command.compare("ADD") == 0)
 		{
-			if (phonebook.getId() == 8) {
-				cout << "Sorry, but phonebook is full. You can use SEARCH or EXIT." << endl;
+			if (phonebook.getIndex() == 8) {
+				cout << "Sorry, but phonebook is full :(. You can use SEARCH or EXIT." << endl; 
 				continue;
 			}
 			contact = adInfo();
 			phonebook.addContact(contact);
-			cout << phonebook.getId() << endl;
 		}
 		else if (command.compare("SEARCH") == 0)
 		{
-			lookList(phonebook.listContacts);
-			cout << "SEARCH";
+			lookList(phonebook.listContacts, phonebook.getIndex());
 		}
 		else if (command.compare("EXIT") == 0)
 			break ;
 		else
 		{
-			cout << "Your command is not valid, please look at insert example." << endl;
+			cout << "Your command is not valid :(, please look at insert example." << endl;
 		}
 	}
 }

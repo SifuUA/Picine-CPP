@@ -2,22 +2,21 @@
 # define CONTACT_CLASS_H
 # include <string>
 # include <iostream>
+using namespace std;
 
 class Contact {
-	private:
-	static int id;
 	
 	public:
-		std::string	firstName;
-		std::string lastName;
-		std::string nickName;
-		std::string login;
-		std::string postAddress;
-		std::string	phoneNumber;
-		std::string birthday;
-		std::string favoriteMeal;
-		std::string underwearColor;
-		std::string darkestSecret;
+		string	firstName;
+		string lastName;
+		string nickName;
+		string login;
+		string postAddress;
+		string	phoneNumber;
+		string birthday;
+		string favoriteMeal;
+		string underwearColor;
+		string darkestSecret;
 
 	public:
 		Contact(void);
@@ -28,9 +27,13 @@ class Contact {
 
 		~Contact(void);
 
-		void toString();
 
-		int getId();
-		
+		void toString(void);
+
+		string getFirstName(void);
+
+		string getLastName(void);
+
+		string getNickname(void);
 };
 #endif

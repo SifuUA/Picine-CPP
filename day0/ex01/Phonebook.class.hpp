@@ -21,7 +21,7 @@ void addContact(Contact contact);
 
 void search(void);
 
-int getId();
+int getIndex();
 };
 
 #endif

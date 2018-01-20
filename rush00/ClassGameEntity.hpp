@@ -1,5 +1,6 @@
 #ifndef CLASS_GAME_ENTITY_H
 # define CLASS_GAME_ENTITY_H
+# include <ncurses.h>
 
 
 class ClassGameEntity
@@ -11,12 +12,12 @@ class ClassGameEntity
 		~ClassGameEntity();
 
 		ClassGameEntity &operator=(ClassGameEntity const &rhs);
-		void	mvUp();
-		void	mvDown();
-		void	mvLeft();
-		void	mvRight();
-		int		getMv();
-		void 	dispaly();
+		void	mvUp(void);
+		void	mvDown(void);
+		void	mvLeft(void);
+		void	mvRight(void);
+		int		getMv(void);
+		void 	display(void);
 
 	private:
 		int		xLoc;

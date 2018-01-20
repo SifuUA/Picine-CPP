@@ -71,6 +71,11 @@ int ClassGameEntity::getMv(void) {
 		case KEY_LEFT:
 			mvLeft();
 			break;
+		case 'q':
+			system("clear");
+			exit(0);
+		case ' ':
+			shot();
 		default:
 			break;
 	}
@@ -79,5 +84,9 @@ int ClassGameEntity::getMv(void) {
 
 void ClassGameEntity::display() {
 	mvwaddch(curWind, yLoc, xLoc, chr);
+}
+
+void ClassGameEntity::shot(void) {
+
 }
 

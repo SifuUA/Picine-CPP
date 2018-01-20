@@ -3,6 +3,7 @@
 # include <ncurses.h>
 
 
+
 class ClassGameEntity
 {
 	public:
@@ -18,6 +19,7 @@ class ClassGameEntity
 		void	mvRight(void);
 		int		getMv(void);
 		void 	display(void);
+		void	shot(void);
 
 	private:
 		int		xLoc;

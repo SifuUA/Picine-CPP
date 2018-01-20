@@ -35,18 +35,21 @@ void ClassGameEntity::mvUp(void) {
 }
 
 void ClassGameEntity::mvDown(void) {
+	mvwaddch(curWind, yLoc, xLoc, ' ');
 	yLoc++;
 	if (yLoc > yMax - 2)
 		yLoc = yMax - 2;
 }
 
 void ClassGameEntity::mvRight(void) {
+	mvwaddch(curWind, yLoc, xLoc, ' ');
 	xLoc++;
 	if (xLoc > xMax - 2)
 		xLoc = xMax - 2;
 }
 
 void ClassGameEntity::mvLeft(void) {
+	mvwaddch(curWind, yLoc, xLoc, ' ');
 	xLoc--;
 	if (xLoc < 1)
 		xLoc = 1;

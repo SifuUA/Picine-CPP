@@ -1,117 +1,108 @@
-# include <ncurses.h>
-# include <string>
-# include <cstdlib>
-# include <ctime>
-# include <iostream>
-# include "ClassGameEntity.hpp"
-# define WIDTH 142
-# define HEIGHT 42
+#include <ClassPlayer.hpp>
+#include <ClassBullet.hpp>
+#include <unistd.h>
+#include <ft_retro.h>
+#include <ClassEnemy.hpp>
+#include <ClassInfo.hpp>
 
-void show_info(WINDOW *menuwin) {
-	std::string s1 = "GAME INSTRUCTION:";
-	std::string s5 = "-> Press 'SPACE' - to shot <-";
-	std::string s6 = "-> Press '->' to move right <-";
-	std::string s7 = "-> Press '<-' to move right <-";
-	std::string s8 = "-> Press 'UP' to move right <-";
-	std::string s9 = "-> Press 'DOWN' to move right <-";
-	std::string s10 = "-> Press 'Q' to quit from game mode <-";
-	std::string s11= "MADE BY KHRECHEN AND OKRES";
-
-	start_color();
-
-	init_pair(1, COLOR_RED, COLOR_BLACK);
-	init_pair(2, COLOR_MAGENTA, COLOR_WHITE);
-	init_pair(3, COLOR_YELLOW, COLOR_BLUE);
-	init_pair(4, COLOR_BLACK, COLOR_BLUE);
-	init_pair(5, COLOR_GREEN, COLOR_BLACK);
-
-	wattron(menuwin, COLOR_PAIR(5));
-	mvwprintw(menuwin, HEIGHT - 20, (WIDTH - std::strlen(s1.c_str())) / 2, s1.c_str());
-	mvwprintw(menuwin, HEIGHT - 19, (WIDTH - std::strlen(s5.c_str())) / 2, s5.c_str());
-	mvwprintw(menuwin, HEIGHT - 18, (WIDTH - std::strlen(s6.c_str())) / 2, s6.c_str());
-	mvwprintw(menuwin, HEIGHT - 17, (WIDTH - std::strlen(s7.c_str())) / 2, s7.c_str());
-	mvwprintw(menuwin, HEIGHT - 16, (WIDTH - std::strlen(s8.c_str())) / 2, s8.c_str());
-	mvwprintw(menuwin, HEIGHT - 15, ((WIDTH - std::strlen(s9.c_str())) / 2) + 1, s9.c_str());
-	mvwprintw(menuwin, HEIGHT - 14, ((WIDTH - std::strlen(s10.c_str())) / 2) + 4, s10.c_str());
-	wattroff(menuwin, COLOR_PAIR(5));
-	
-	wattron(menuwin, COLOR_PAIR(1));
-	mvwprintw(menuwin, HEIGHT - 2, ((WIDTH - std::strlen(s11.c_str())) - 4) , s11.c_str());
-	wattroff(menuwin, COLOR_PAIR(1));
+void msg_exit(WINDOW *win, WINDOW *win_score, WINDOW *win1, std::string msg) {
+	delwin(win);
+	delwin(win_score);
+	delwin(win1);
+	endwin();
+	std::cout << msg << std::endl;
+	exit(0);
 }
 
-int startMenu(WINDOW *menuwin) {
-	int choice;
-	int tmp = 0;
-	std::string choices [2] = {"PLAY", "EXIT"};
+int main() {
+	WINDOW *win, *win_score, *win1;
+	int chr, score = 0;
+	bool quit = false;
+	Bullet bullets[42];
+	Enemy enemys[42];
+	Info info;
 
-	keypad(menuwin, true);
-	while(1) {
-		for (int i = 0; i < 2; i++) {
-			if (i == tmp) 
-				wattron(menuwin, A_REVERSE);
-			mvwprintw(menuwin, i + 19, (WIDTH - std::strlen(choices[i].c_str())) / 2, choices[i].c_str());
-			wattroff(menuwin, A_REVERSE);
-		}
-		show_info(menuwin);
-		choice = wgetch(menuwin);
-		switch(choice) {
+	initscr();
+	curs_set(0);
+	noecho();
+	win = newwin(HEIGHT, WIDTH, 0, 0);
+	win_score = newwin(3, WIDTH, HEIGHT + 2, 0);
+	win1 = newwin(HEIGHT, WIDTH, 0, 0);
+	box(win1, 0, 0);
+	if (info.startMenu(win1)) {
+		msg_exit(win, win_score, win1, "GOODBY!");
+		return (0);
+	}
+	Player p = Player(win, '>');
+	nodelay(win, TRUE);
+	keypad(win, TRUE);
+	box(win, 0, 0);
+	box(win_score, 0, 0);
+	while (!quit) {
+		chr = wgetch(win);
+		switch (chr) {
+			case ' ':
+				for (int i = 0; i < 42; ++i) {
+					if (!bullets[i].getOnScreen()) {
+						bullets[i] = Bullet(win, '-', p.getX() + 1, p.getY());
+						bullets[i].setOnScreen(true);
+						break;
+					}
+				}
+				break;
 			case KEY_UP:
-				tmp--;
-				if(tmp == -1)
-					tmp = 0;
+				p.moveUp();
 				break;
 			case KEY_DOWN:
-				tmp++;
-				if(tmp == 2)
-					tmp = 1;
+				p.moveDown();
 				break;
+			case KEY_LEFT:
+				p.moveLeft();
+				break;
+			case KEY_RIGHT:
+				p.moveRight();
+				break;
+			case 'q':
+				quit = true;
 			default:
 				break;
 		}
-		if(choice == 10)
-			break;
+		for (int j = 0; j < 42; ++j) {
+			if (!enemys[j].getOnScreen()) {
+				enemys[j] = Enemy(win);
+				break;
+			}
+		}
+		for (int k = 0; k < 42; ++k) {
+			if (enemys[k].getOnScreen()) {
+				enemys[k].move();
+				if (p == enemys[k]) {
+					msg_exit(win, win_score, win1, "YOU LOSE");
+				}
+			}
+		}
+		for (int i = 0; i < 42; ++i) {
+			if (bullets[i].getOnScreen())
+				bullets[i].move();
+		}
+		for (int l = 0; l < 42; ++l) {
+			for (int i = 0; i < 42; ++i) {
+				if (bullets[l] == enemys[i]) {
+					bullets[l].clear();
+					enemys[i].clear();
+					mvwprintw(win_score, 1, 1, "SCORE: %03d", ++score);
+					wrefresh(win_score);
+				}
+			}
+		}
+		if (score == 42)
+			msg_exit(win, win_score, win1, "YOU WON");
+		usleep(50000);
 	}
-	wclear(menuwin);
-	box(menuwin, 0, 0);
-	return tmp;
-}
-
-int main (int argc, char **argv) {
-
-	//NCURSES START
-	initscr();
-	noecho();
-	cbreak();
-
-	//HIDE CURSOR
-	curs_set(0);
-
-	//GET SCREN SIZE
-	int yMax;
-	int xMax;
-	getmaxyx(stdscr, yMax, xMax);
-	
-	//CREAT WINDOW FOR OUR INPUT
-	WINDOW * playwin = newwin(HEIGHT, WIDTH, 0, 0);
-	box(playwin, 0, 0);
-	refresh();
-	wrefresh(playwin);
-
-	if (startMenu(playwin) == 1) {
-		system("clear");
-		return (0);
-	}
-	ClassGameEntity *p = new ClassGameEntity(playwin, 1, 1, '>');
-	p->display();
-	wrefresh(playwin);
-	while(p->getMv() != 'q') {
-		p->display();
-		wrefresh(playwin);
-	}
-
-	//PROGRAM WAITS BEFORE EXIT
-	getch();
-	//NCURSES END
+	wrefresh(win); 
+	delwin(win);
+	delwin(win_score);
+	delwin(win1);
 	endwin();
+	return 0;
 }

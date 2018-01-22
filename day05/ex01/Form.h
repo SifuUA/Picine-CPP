@@ -34,13 +34,20 @@ class Form {
     public:
         Form();
         virtual ~Form();
+        Form(const std::string &name, int gradeSign, int gradeExec) throw(GradeTooHighException, GradeTooLowException);
         Form(const Form &src);
         bool operator==(const Form &rhs) const;
-        void beSigned(Bureaucrat bureaucrat);
-
-    private:
+        void beSigned(Bureaucrat bureaucrat) throw(GradeTooLowException);
+        const   std::string &getName() const;
+        int getGradeSign() const;
+        int getGradeExec() const;
+        bool getisSign() const;
+private:
         std::string name;
-        bool isSign;
+        int     gradeSign;
+        int     gradeExec;
+        bool    isSign;
+
 
 
 };

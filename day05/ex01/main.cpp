@@ -2,30 +2,36 @@
 #include "Bureaucrat.h"
 
 int main() {
-    Bureaucrat bureaucrat = Bureaucrat("BILL", 145);
-    std::cout << bureaucrat << std::endl;
+    Form form;
+
     try {
-        for (int i = 0; i < 13; ++i) {
-            bureaucrat.decrement();
-        }
-    }catch (std::exception &e) {
-        std::cout << "Exception catched from " << bureaucrat.getName() << std::endl;
+        form = Form("My Form ", 25, 22);
+    }
+    catch (std::exception &e) {
+        std::cout << "Form error catch ";
+    }
+    std::cout << form << std::endl;
+    try
+    {
+        Bureaucrat	ron("Ron", 21);
+        std::cout << ron << std::endl;
+        ron.signForm(form);
+        std::cout << form << std::endl;
+    }
+    catch (std::exception &e)
+    {
+        std::cout << "Ron error catch";
     }
 
-    Bureaucrat bureaucrat1 = Bureaucrat("JACK", 10);
-    std::cout << bureaucrat1 << std::endl;
-    try {
-        for (int i = 0; i < 13; ++i) {
-            bureaucrat1.increment();
-        }
-    }catch (std::exception &e) {
-        std::cout << "Exception catch from " << bureaucrat1.getName() << std::endl;
+    try
+    {
+        Bureaucrat	jack("Jack", 4);
+        std::cout << jack;
+        jack.signForm(form);
+        std::cout << form;
     }
-
-    Bureaucrat bureaucrat2;
-    try {
-        bureaucrat2 = Bureaucrat("BRED", 0);
-    }catch (std::exception &e) {
-        std::cout << "Exception catched from BRED" << std::endl;
+    catch (std::exception &e)
+    {
+        std::cout << "Jack error catch";
     }
 }

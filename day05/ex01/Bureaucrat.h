@@ -38,9 +38,9 @@ class Bureaucrat {
         bool operator==(const Bureaucrat &rhs) const;
         const std::string &getName() const;
         int getGrade() const;
-        void increment(void);
-        void decrement(void);
-        void signForm(void);
+        void increment();
+        void decrement();
+        void signForm(Form &form);
 
 
 private:

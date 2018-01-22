@@ -19,13 +19,13 @@ int main() {
             bureaucrat1.increment();
         }
     }catch (std::exception &e) {
-        std::cout << "Exception catched from " << bureaucrat1.getName() << std::endl;
+        std::cout << "Exception catch from " << bureaucrat1.getName() << std::endl;
     }
 
     Bureaucrat bureaucrat2;
     try {
-        bureaucrat2 = Bureaucrat("JACK", 0);
+        bureaucrat2 = Bureaucrat("BRED", 0);
     }catch (std::exception &e) {
-        std::cout << "Exception catched from Jack" << std::endl;
+        std::cout << "Exception catched from BRED" << std::endl;
     }
 }
